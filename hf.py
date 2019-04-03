@@ -128,11 +128,14 @@ for items in orderDataContainer:
          weights.append(overallWeight) 
          mean = np.average(orderDataContainer[index].astype(int))
          order.append(round(mean*weight))
-         print(productDescriptionContainer[index][0], "mean: ", mean, "weight: ", weight  )
+         #print(productDescriptionContainer[index][0], "mean: ", mean, "weight: ", weight  )
          index= index+1
-         
-        
-        # for qty in items:
+    
+index=0   
+for i in order:
+    print(productDescriptionContainer[index][0], '  ' , productDescriptionContainer[index][1], '  ', order[index])       
+    index = index + 1    
+    # for qty in items:
          
         
          #order.append(mean.astype(int) * weights.astype(int))
