@@ -75,17 +75,38 @@ with open('rawTagData.csv') as rawTagData:
      
 #if (weekend==1):
    
-weight=[]  
+weights=[]  
 order = []
+'''
 if (weekend==0):
-    for ones in tagDataContainer[0].astype(int):
-     countTrue = (tagDataContainer[0].astype(int) == 1).sum()
-     countSum= np.sum(tagDataContainer[0].astype(int) * orderDataContainer[0].astype(int))
-    weight= countSum/countTrue
-    mean = np.average(orderDataContainer[0].astype(int))
-    print(mean-weight)
-    order.append(math.floor(mean*(1+weight)))
-#if (ideal==1):
+    for ones in tagDataContainer[9].astype(int):
+     countTrue = (tagDataContainer[9].astype(int) == 1).sum()
+     print(orderDataContainer[ones].astype(int).sum())
+     countSum= np.sum((tagDataContainer[9].astype(int) * orderDataContainer[ones].astype(int)))
+     weight= countSum/countTrue
+     mean = np.average(orderDataContainer[ones].astype(int))
+     print(mean-weight)
+     order.append(round(mean*(1+weight)))
+'''
+if (ideal==1):
+     index = 0
+     for items in orderDataContainer:
+         
+         #print(items, index)
+         #https://en.wikipedia.org/wiki/Hadamard_product_(matrices)
+         countSum= np.sum((tagDataContainer[4].astype(int) * orderDataContainer[index].astype(int)))
+         countTrue = (tagDataContainer[4].astype(int) == 1).sum()
+         weight = countSum/countTrue
+         weights.append(weight)
+         mean = np.average(orderDataContainer[index].astype(int))
+         index= index+1
+         print("mean: ", mean, "weight: ", weight  )
+        # for qty in items:
+         
+        
+         #order.append(mean.astype(int) * weights.astype(int))
+         
+             #print(qty)
         
 #if (inclement==1):
     
