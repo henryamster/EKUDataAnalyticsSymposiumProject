@@ -70,7 +70,7 @@ if (weekend==0):
 if (ideal==1):
     tags.append(4)  
 if (inclement==1):
- tags.append(2)
+ tags.append(5)
 if(daysOut=='2'):
  tags.append(2)        
 if(daysOut=='1'):
@@ -101,18 +101,6 @@ with open('rawTagData.csv') as rawTagData:
 weights=[]  
 order = []
  
-
-'''
-
-    for ones in tagDataContainer[9].astype(int):
-     countTrue = (tagDataContainer[9].astype(int) == 1).sum()
-     print(orderDataContainer[ones].astype(int).sum())
-     countSum= np.sum((tagDataContainer[9].astype(int) * orderDataContainer[ones].astype(int)))
-     weight= countSum/countTrue
-     mean = np.average(orderDataContainer[ones].astype(int))
-     print(mean-weight)
-     order.append(round(mean*(1+weight)))
-'''
 
 index = 0
 for items in orderDataContainer:
