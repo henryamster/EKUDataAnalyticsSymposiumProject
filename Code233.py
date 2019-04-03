@@ -83,6 +83,7 @@ if(community==1):
 
 orderDataContainer = []
 tagDataContainer = []
+productDescriptionContainer= []
 with open('RawOrderData.csv') as rawOrderData:
     reader = csv.reader(rawOrderData)
     count = 0
@@ -97,6 +98,13 @@ with open('rawTagData.csv') as rawTagData:
      count = count+1
      tagDataContainer.append(np.array(row[:]))
      
+with open('itemDescriptions.csv') as productDescription:
+    reader = csv.reader(productDescription)
+    count = 0
+    for row in reader:
+        count = count+1
+        productDescriptionContainer.append(np.array(row[:]))
+     
 
 weights=[]  
 order = []
@@ -107,13 +115,23 @@ for items in orderDataContainer:
          
          #print(items, index)
          #https://en.wikipedia.org/wiki/Hadamard_product_(matrices)
-         countSum= np.sum((tagDataContainer[4].astype(int) * orderDataContainer[index].astype(int)))
-         countTrue = (tagDataContainer[4].astype(int) == 1).sum()
-         weight = countSum/countTrue
-         weights.append(weight)
+         for tag in tags:
+          combinedWeights = []
+          countSum= np.sum((tagDataContainer[tag].astype(int) * orderDataContainer[index].astype(int)))
+          countTrue = (tagDataContainer[tag].astype(int) == 1).sum()
+          weight = countSum/countTrue
+          combinedWeights.append(weight)
+         for weight in combinedWeights:
+            sumW= sum(combinedWeights).astype(int)
+            lenW= len(combinedWeights)
+            overallWeight = sumW/lenW
+         weights.append(overallWeight) 
          mean = np.average(orderDataContainer[index].astype(int))
+         order.append(round(mean*weight))
+         print(productDescriptionContainer[index][0], "mean: ", mean, "weight: ", weight  )
          index= index+1
-         print("mean: ", mean, "weight: ", weight  )
+         
+        
         # for qty in items:
          
         
