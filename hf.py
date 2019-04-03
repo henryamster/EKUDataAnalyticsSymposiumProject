@@ -119,10 +119,13 @@ for items in orderDataContainer:
           combinedWeights = []
           countSum= np.sum((tagDataContainer[tag].astype(int) * orderDataContainer[index].astype(int)))
           countTrue = (tagDataContainer[tag].astype(int) == 1).sum()
-          weight = countSum/countTrue
+          if countTrue > 0:
+           weight = countSum/countTrue
+          else:
+              weight = 1
           combinedWeights.append(weight)
          for weight in combinedWeights:
-            sumW= sum(combinedWeights).astype(int)
+            sumW= sum(combinedWeights)
             lenW= len(combinedWeights)
             overallWeight = sumW/lenW
          weights.append(overallWeight) 
