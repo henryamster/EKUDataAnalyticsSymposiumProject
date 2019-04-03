@@ -9,20 +9,24 @@ https://henryfritz.xyz/
 import datetime
 import numpy as np
 import csv
-import math 
 
-#logic for query
-
+#determine weekend status from datetime object
 weekno = datetime.datetime.today().weekday()
 
 if weekno<5:
     weekend = 0
 else:
     weekend=1
-       
-       #the date - to determine a holiday order and whether its a weekday or weekend
-       #a switch statement will determine the tag map selection
-       #whether inclement weather is expected for the order date
+    
+holiday = input('Is today a holiday? if it is a set holiday (July 4th, December 25), please type 1, otherwise type 2, if it is not a holiday please type n: ')
+if holiday == 1: 
+     hd=1
+elif holiday == 2: 
+     hd=2
+else: 
+     hd=0      
+  
+     
 wx = input('Is the weather ideal, inclement, or normal?:  ')
 if wx == 'ideal':
     ideal = 1
@@ -55,6 +59,26 @@ if ce == 'y':
 else:
     community = 0
     
+   #append tags to tag array
+tags=[]
+if (hd ==1) :  
+    tags.append(0)
+elif (hd==2) :
+    tags.append(1)
+if (weekend==0):
+    tags.append(8)
+if (ideal==1):
+    tags.append(4)  
+if (inclement==1):
+ tags.append(2)
+if(daysOut=='2'):
+ tags.append(2)        
+if(daysOut=='1'):
+ tags.append(3)   
+if(sport==1):
+ tags.append(6)
+if(community==1):
+ tags.append(7)
  # query information complete
 
 orderDataContainer = []
@@ -73,30 +97,42 @@ with open('rawTagData.csv') as rawTagData:
      count = count+1
      tagDataContainer.append(np.array(row[:]))
      
-#if (weekend==1):
-   
-weight=[]  
+
+weights=[]  
 order = []
-if (weekend==0):
-    for ones in tagDataContainer[0].astype(int):
-     countTrue = (tagDataContainer[0].astype(int) == 1).sum()
-     countSum= np.sum(tagDataContainer[0].astype(int) * orderDataContainer[0].astype(int))
-    weight= countSum/countTrue
-    mean = np.average(orderDataContainer[0].astype(int))
-    print(mean-weight)
-    order.append(math.floor(mean*(1+weight)))
-#if (ideal==1):
+ 
+
+'''
+
+    for ones in tagDataContainer[9].astype(int):
+     countTrue = (tagDataContainer[9].astype(int) == 1).sum()
+     print(orderDataContainer[ones].astype(int).sum())
+     countSum= np.sum((tagDataContainer[9].astype(int) * orderDataContainer[ones].astype(int)))
+     weight= countSum/countTrue
+     mean = np.average(orderDataContainer[ones].astype(int))
+     print(mean-weight)
+     order.append(round(mean*(1+weight)))
+'''
+
+index = 0
+for items in orderDataContainer:
+         
+         #print(items, index)
+         #https://en.wikipedia.org/wiki/Hadamard_product_(matrices)
+         countSum= np.sum((tagDataContainer[4].astype(int) * orderDataContainer[index].astype(int)))
+         countTrue = (tagDataContainer[4].astype(int) == 1).sum()
+         weight = countSum/countTrue
+         weights.append(weight)
+         mean = np.average(orderDataContainer[index].astype(int))
+         index= index+1
+         print("mean: ", mean, "weight: ", weight  )
+        # for qty in items:
+         
         
-#if (inclement==1):
-    
-#if(daysOut=='2'):
-            
-#if(daysOut=='1'):
-    
-#if(sport==1):
-    
-#if(community==1):
-    
+         #order.append(mean.astype(int) * weights.astype(int))
+         
+             #print(qty)
+
     
     
 #remember to use .astype(int) to cast np.arrays's values
